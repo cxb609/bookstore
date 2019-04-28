@@ -1,7 +1,7 @@
-package com.scutj2ee.bookstore.mapper;
+package com.bookstore.backend.mapper;
 
-import com.scutj2ee.bookstore.entity.Book;
-import com.scutj2ee.bookstore.entity.Comment;
+import com.bookstore.backend.entity.Comment;
+import com.bookstore.backend.entity.Book;
 
 import java.util.List;
 

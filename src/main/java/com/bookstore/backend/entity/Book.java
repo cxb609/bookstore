@@ -1,4 +1,4 @@
-package com.scutj2ee.bookstore.entity;
+package com.bookstore.backend.entity;
 
 import lombok.Data;
 

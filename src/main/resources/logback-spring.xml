@@ -21,7 +21,7 @@
     <root level="info">
         <appender-ref ref="console" />
     </root>
-    <logger name="com.scutj2ee.bookstore" level="debug" additivity="false">
+    <logger name="com.bookstore.backend" level="debug" additivity="false">
         <appender-ref ref="file" />
     </logger>
 </configuration>

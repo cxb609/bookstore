@@ -82,3 +82,18 @@
 12:01:817.817 logback [main] DEBUG c.s.b.m.B.getBookCommentsById -==>  Preparing: select * from comment where book_id = ? 
 12:01:843.843 logback [main] DEBUG c.s.b.m.B.getBookCommentsById -==> Parameters: B00112Y93U(String)
 12:01:899.899 logback [main] DEBUG c.s.b.m.B.getBookCommentsById -<==      Total: 1
+16:14:50.050 logback [main] INFO  c.b.backend.mapper.BookMapperTest -Starting BookMapperTest on EFCNCCWL8HAG9YS with PID 27392 (started by Administrator in F:\习题\J2EE\bookstore)
+16:14:50.050 logback [main] DEBUG c.b.backend.mapper.BookMapperTest -Running with Spring Boot v2.1.4.RELEASE, Spring v5.1.6.RELEASE
+16:14:50.050 logback [main] INFO  c.b.backend.mapper.BookMapperTest -No active profile set, falling back to default profiles: default
+16:14:199.199 logback [main] INFO  c.b.backend.mapper.BookMapperTest -Started BookMapperTest in 3.961 seconds (JVM running for 5.941)
+16:17:216.216 logback [main] INFO  c.b.backend.mapper.BookMapperTest -Starting BookMapperTest on EFCNCCWL8HAG9YS with PID 20848 (started by Administrator in F:\习题\J2EE\bookstore)
+16:17:216.216 logback [main] DEBUG c.b.backend.mapper.BookMapperTest -Running with Spring Boot v2.1.4.RELEASE, Spring v5.1.6.RELEASE
+16:17:216.216 logback [main] INFO  c.b.backend.mapper.BookMapperTest -No active profile set, falling back to default profiles: default
+16:17:847.847 logback [main] INFO  c.b.backend.mapper.BookMapperTest -Started BookMapperTest in 3.309 seconds (JVM running for 4.383)
+16:19:844.844 logback [main] INFO  c.b.backend.mapper.BookMapperTest -Starting BookMapperTest on EFCNCCWL8HAG9YS with PID 3240 (started by Administrator in F:\习题\J2EE\bookstore)
+16:19:844.844 logback [main] DEBUG c.b.backend.mapper.BookMapperTest -Running with Spring Boot v2.1.4.RELEASE, Spring v5.1.6.RELEASE
+16:19:860.860 logback [main] INFO  c.b.backend.mapper.BookMapperTest -No active profile set, falling back to default profiles: default
+16:19:704.704 logback [main] INFO  c.b.backend.mapper.BookMapperTest -Started BookMapperTest in 3.442 seconds (JVM running for 4.544)
+16:19:251.251 logback [main] DEBUG c.b.b.m.BookMapper.findBookByKey -==>  Preparing: select * from book where title like '%人间失格%' 
+16:19:282.282 logback [main] DEBUG c.b.b.m.BookMapper.findBookByKey -==> Parameters: 
+16:19:344.344 logback [main] DEBUG c.b.b.m.BookMapper.findBookByKey -<==      Total: 5
