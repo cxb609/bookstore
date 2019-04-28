@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+    <mapper namespace="com.bookstore.backend.mapper.BookMapper">
+        <select id="findAllBook" resultType="Book">
+            select * from book
+        </select>
+
+        <select id="findBookByKey" parameterType="String" resultType="Book">
+            select * from book where title like '%${value}%'
+        </select>
+
+        <select id="findBookByCategory" parameterType="String" resultType="Book">
+            select * from book where category = #{category}
+        </select>
+
+        <select id="getBookCommentsById" parameterType="String" resultType="Comment">
+            select * from comment where book_id = #{book_id}
+        </select>
+    </mapper>
