@@ -97,3 +97,10 @@
 16:19:251.251 logback [main] DEBUG c.b.b.m.BookMapper.findBookByKey -==>  Preparing: select * from book where title like '%人间失格%' 
 16:19:282.282 logback [main] DEBUG c.b.b.m.BookMapper.findBookByKey -==> Parameters: 
 16:19:344.344 logback [main] DEBUG c.b.b.m.BookMapper.findBookByKey -<==      Total: 5
+17:55:344.344 logback [main] INFO  c.b.backend.mapper.BookMapperTest -Starting BookMapperTest on DESKTOP-JMCPEBV with PID 2832 (started by Xiaobin in D:\bookstore)
+17:55:344.344 logback [main] DEBUG c.b.backend.mapper.BookMapperTest -Running with Spring Boot v2.1.4.RELEASE, Spring v5.1.6.RELEASE
+17:55:344.344 logback [main] INFO  c.b.backend.mapper.BookMapperTest -No active profile set, falling back to default profiles: default
+17:55:962.962 logback [main] INFO  c.b.backend.mapper.BookMapperTest -Started BookMapperTest in 3.238 seconds (JVM running for 4.588)
+17:55:552.552 logback [main] DEBUG c.b.b.m.BookMapper.findBookByKey -==>  Preparing: select * from book where title like '%人间失格%' 
+17:55:572.572 logback [main] DEBUG c.b.b.m.BookMapper.findBookByKey -==> Parameters: 
+17:55:622.622 logback [main] DEBUG c.b.b.m.BookMapper.findBookByKey -<==      Total: 5
