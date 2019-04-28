@@ -1,9 +1,9 @@
-package com.scutj2ee.bookstore.mapper;
+package com.bookstore.backend.mapper;
 
+import com.bookstore.backend.entity.Comment;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.scutj2ee.bookstore.entity.Book;
-import com.scutj2ee.bookstore.entity.Comment;
+import com.bookstore.backend.entity.Book;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

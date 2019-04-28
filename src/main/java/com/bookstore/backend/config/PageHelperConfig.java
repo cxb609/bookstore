@@ -1,4 +1,4 @@
-package com.scutj2ee.bookstore.config;
+package com.bookstore.backend.config;
 
 import com.github.pagehelper.PageHelper;
 import org.springframework.context.annotation.Bean;

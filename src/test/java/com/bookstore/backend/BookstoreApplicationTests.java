@@ -1,4 +1,4 @@
-package com.scutj2ee.bookstore;
+package com.bookstore.backend;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
