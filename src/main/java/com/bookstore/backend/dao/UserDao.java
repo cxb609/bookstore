@@ -1,6 +1,7 @@
 package com.bookstore.backend.dao;
 
 import com.bookstore.backend.entity.User;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -45,12 +46,12 @@ public interface UserDao {
      * @param userId
      * @param newName
      */
-    void modifyName(String userId, String newName);
+    void modifyName(@Param("userId") String userId, @Param("newName") String newName);
 
     /**
      * 修改密码
      * @param userId
      * @param newPwd
      */
-    void modifyPassword(String userId, String newPwd);
+    void modifyPassword(@Param("userId") String userId, @Param("newPwd") String newPwd);
 }
