@@ -2,10 +2,12 @@ package com.bookstore.backend.dao;
 
 import com.bookstore.backend.entity.Comment;
 import com.bookstore.backend.entity.Book;
+import org.springframework.stereotype.Component;
 
 import java.util.Date;
 import java.util.List;
 
+@Component
 public interface BookDao {
 
     /**
