@@ -30,7 +30,7 @@ public interface UserDao {
     User getUserByName(String name);
 
     /**
-     * 增加用户
+     * 添加用户
      * @param user
      */
     void addUser(User user);

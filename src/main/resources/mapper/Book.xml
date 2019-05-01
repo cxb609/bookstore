@@ -31,7 +31,7 @@
         <select id="addBook" parameterType="Book">
             insert into book values (#{book_id},#{title},#{author},#{publisher},#{language},#{isbn},#{size},#{weight},#{brand},#{category},#{price},#{picture},#{stock},#{sale},#{description})
         </select>
-    
+
         <select id="updateBookSS" parameterType="String">
             update book set stock=stock-1,sale=sale+1 where book_id = #{book_id}
         </select>
