@@ -4,16 +4,16 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
     <mapper namespace="com.bookstore.backend.dao.BookDao">
-        <select id="findAllBook" resultType="Book">
-            select * from book
+        <select id="findAllBook" resultType="ShowBook">
+            select book_id,title,author,category,price,picture from book
         </select>
 
-        <select id="findBookByKey" parameterType="String" resultType="Book">
-            select * from book where title like '%${value}%'
+        <select id="findBookByKey" parameterType="String" resultType="ShowBook">
+            select book_id,title,author,category,price,picture from book where title like '%${value}%'
         </select>
 
-        <select id="findBookByCategory" parameterType="String" resultType="Book">
-            select * from book where category = #{category}
+        <select id="findBookByCategory" parameterType="String" resultType="ShowBook">
+            select book_id,title,author,category,price,picture from book where category = #{category}
         </select>
 
         <select id="getBookCommentsById" parameterType="String" resultType="Comment">
@@ -32,7 +32,15 @@
             insert into book values (#{book_id},#{title},#{author},#{publisher},#{language},#{isbn},#{size},#{weight},#{brand},#{category},#{price},#{picture},#{stock},#{sale},#{description})
         </select>
     
-        <select id="updateBookSS" parameterType="String">
-            update book set stock=stock-1,sale=sale+1 where book_id = #{book_id}
+        <select id="updateBookSS">
+            update book set stock=stock-#{num},sale=sale+#{num} where book_id = #{book_id}
+        </select>
+
+        <select id="getHomeBook" resultType="ShowBook">
+            select book_id,title,author,category,price,picture from book order by sale desc limit 0,5
+        </select>
+
+        <select id="getBookById" parameterType="String" resultType="Book">
+            select * from book where book_id = #{book_id}
         </select>
     </mapper>
