@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.bookstore.backend.dao.OrderListDao">
+    <select id="getOrdersByUserId" parameterType="String" resultType="OrderList">
+        select * from order_list where user_id = #{userId}
+    </select>
+
+    <select id="getOrdersByUserIdAndDate" resultType="OrderList">
+        select * from order_list where user_id = #{userId} and date &gt;= #{start} and date &lt;= #{end})
+    </select>
+
+    <select id="getOrdersByOrderId" parameterType="String" resultType="OrderList">
+        select * from order_list where order_id = #{orderId}
+    </select>
+
+    <select id="addOrder" parameterType="OrderList">
+        insert into order_list values (#{order_id}, #{book_id}, #{user_id}, #{date}, #{quantity})
+    </select>
+
+<!--    <select id="addOrders">-->
+<!--        insert into order_list values (#{order_id}, #{book_id}, #{user_id}, #{date}, #{quantity})-->
+<!--    </select>-->
+
+    <select id="deleteOrder">
+        delete from order_list where order_id = #{orderId} and book_id = #{bookId}
+    </select>
+
+    <select id="deleteOrdersByOrderId" parameterType="String">
+        delete from order_list where order_id = #{orderId}
+    </select>
+
+    <select id="modifyQuantity">
+        update order_list set quantity = #{newQuantity} where order_id = #{orderId} and book_id = #{bookId}
+    </select>
+
+</mapper>
