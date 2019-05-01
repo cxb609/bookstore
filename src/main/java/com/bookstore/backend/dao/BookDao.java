@@ -1,11 +1,12 @@
-package com.bookstore.backend.mapper;
+package com.bookstore.backend.dao;
 
 import com.bookstore.backend.entity.Comment;
 import com.bookstore.backend.entity.Book;
 
+import java.util.Date;
 import java.util.List;
 
-public interface BookMapper {
+public interface BookDao {
 
     /**
      * 查找所有图书
@@ -33,4 +34,30 @@ public interface BookMapper {
      * @return
      */
     List<Comment> getBookCommentsById(String book_id);
+
+    /**
+     * 插入书评
+     * @param comment
+     */
+    void insertBookComment(Comment comment);
+
+    /**
+     * 删除图书
+     * @param book_id
+     */
+    void deleteBookById(String book_id);
+
+    /**
+     * 添加图书
+     * @param book
+     */
+    void addBook(Book book);
+
+    /**
+     * 库存stock-1 销量sale+1
+     * @param book_id
+     */
+    void updateBookSS(String book_id);
+
+
 }

@@ -5,7 +5,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-@MapperScan("com.bookstore.backend.mapper")
+@MapperScan("com.bookstore.backend.dao")
 public class BookstoreApplication {
 
     public static void main(String[] args) {
