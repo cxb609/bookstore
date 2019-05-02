@@ -9,6 +9,6 @@ public class OrderList {
     private String order_id;
     private String book_id;
     private String user_id;
-    private Date date;
+    private long date;
     private int quantity;
 }

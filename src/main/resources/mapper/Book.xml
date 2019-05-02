@@ -3,44 +3,44 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-    <mapper namespace="com.bookstore.backend.dao.BookDao">
-        <select id="findAllBook" resultType="ShowBook">
-            select book_id,title,author,category,price,picture from book
-        </select>
+<mapper namespace="com.bookstore.backend.dao.BookDao">
+    <select id="findAllBook" resultType="ShowBook">
+        select book_id,title,author,category,price,picture from book
+    </select>
 
-        <select id="findBookByKey" parameterType="String" resultType="ShowBook">
-            select book_id,title,author,category,price,picture from book where title like '%${value}%'
-        </select>
+    <select id="findBookByKey" parameterType="String" resultType="ShowBook">
+        select book_id,title,author,category,price,picture from book where title like '%${value}%'
+    </select>
 
-        <select id="findBookByCategory" parameterType="String" resultType="ShowBook">
-            select book_id,title,author,category,price,picture from book where category = #{category}
-        </select>
+    <select id="findBookByCategory" parameterType="String" resultType="ShowBook">
+        select book_id,title,author,category,price,picture from book where category = #{category}
+    </select>
 
-        <select id="getBookCommentsById" parameterType="String" resultType="Comment">
-            select * from comment where book_id = #{book_id}
-        </select>
+    <select id="getBookCommentsById" parameterType="String" resultType="Comment">
+        select * from comment where book_id = #{book_id}
+    </select>
 
-        <insert id="insertBookComment" parameterType="Comment">
-            insert into comment values (#{user_id},#{book_id},#{date},#{comment})
-        </insert>
+    <insert id="insertBookComment" parameterType="Comment">
+        insert into comment values (#{user_id},#{book_id},#{date},#{comment})
+    </insert>
 
-        <delete id="deleteBookById" parameterType="String">
-            delete from book where book_id = #{book_id}
-        </delete>
+    <delete id="deleteBookById" parameterType="String">
+        delete from book where book_id = #{book_id}
+    </delete>
 
-        <insert id="addBook" parameterType="Book">
-            insert into book values (#{book_id},#{title},#{author},#{publisher},#{language},#{isbn},#{size},#{weight},#{brand},#{category},#{price},#{picture},#{stock},#{sale},#{description})
-        </insert>
-    
-        <update id="updateBookSS">
-            update book set stock=stock-#{num},sale=sale+#{num} where book_id = #{book_id}
-        </update>
+    <insert id="addBook" parameterType="Book">
+        insert into book values (#{book_id},#{title},#{author},#{publisher},#{language},#{isbn},#{size},#{weight},#{brand},#{category},#{price},#{picture},#{stock},#{sale},#{description})
+    </insert>
 
-        <select id="getHomeBook" resultType="ShowBook">
-            select book_id,title,author,category,price,picture from book order by sale desc limit 0,5
-        </select>
+    <update id="updateBookSS">
+        update book set stock=stock-#{num},sale=sale+#{num} where book_id = #{book_id}
+    </update>
 
-        <select id="getBookById" parameterType="String" resultType="Book">
-            select * from book where book_id = #{book_id}
-        </select>
-    </mapper>
+    <select id="getHomeBook" resultType="ShowBook">
+        select book_id,title,author,category,price,picture from book order by sale desc limit 0,5
+    </select>
+
+    <select id="getBookById" parameterType="String" resultType="Book">
+        select * from book where book_id = #{book_id}
+    </select>
+</mapper>

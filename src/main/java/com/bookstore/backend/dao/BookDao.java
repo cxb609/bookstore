@@ -6,7 +6,6 @@ import com.bookstore.backend.entity.ShowBook;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Component;
 
-import java.util.Date;
 import java.util.List;
 
 @Component
@@ -42,24 +41,28 @@ public interface BookDao {
     /**
      * 插入书评
      * @param comment
+     * @return
      */
     Integer insertBookComment(Comment comment);
 
     /**
      * 删除图书
      * @param book_id
+     * @return
      */
     Integer deleteBookById(String book_id);
 
     /**
      * 添加图书
      * @param book
+     * @return
      */
     Integer addBook(Book book);
 
     /**
      * 库存stock-1 销量sale+1
      * @param book_id
+     * @return
      */
     Integer updateBookSS(@Param("book_id") String book_id, @Param("num") int num);
 

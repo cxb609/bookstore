@@ -32,26 +32,30 @@ public interface UserDao {
     /**
      * 添加用户
      * @param user
+     * @return
      */
-    void addUser(User user);
+    Integer addUser(User user);
 
     /**
      * 根据用户ID删除用户
      * @param userId
+     * @return
      */
-    void deleteUser(String userId);
+    Integer deleteUser(String userId);
 
     /**
      * 修改用户名
      * @param userId
      * @param newName
+     * @return
      */
-    void modifyName(@Param("userId") String userId, @Param("newName") String newName);
+    Integer modifyName(@Param("userId") String userId, @Param("newName") String newName);
 
     /**
      * 修改密码
      * @param userId
      * @param newPwd
+     * @return
      */
-    void modifyPassword(@Param("userId") String userId, @Param("newPwd") String newPwd);
+    Integer modifyPassword(@Param("userId") String userId, @Param("newPwd") String newPwd);
 }
