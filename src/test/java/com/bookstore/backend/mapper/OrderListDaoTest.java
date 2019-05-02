@@ -12,7 +12,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @RunWith(SpringRunner.class)
@@ -28,13 +27,13 @@ public class OrderListDaoTest {
 //        order.setOrder_id("ASD123456");
 //        order.setBook_id("zxc1234567");
 //        order.setUser_id("1234567890");
-//        order.setDate(new Date());
+//        order.setDate();
 //        order.setQuantity(10);
 //        orderList1.add(order);
 //        order.setOrder_id("ASD123456");
 //        order.setBook_id("vbn1234567");
 //        order.setUser_id("1234567890");
-//        order.setDate(new Date());
+//        order.setDate();
 //        order.setQuantity(5);
 //        orderList1.add(order);
 //        orderListDao.addOrder(orderList1.get(0));

@@ -16,20 +16,20 @@
         select * from user where name = #{name}
     </select>
 
-    <select id="addUser" parameterType="User">
+    <insert id="addUser" parameterType="User">
         insert into user values (#{user_id}, #{name}, #{password})
-    </select>
+    </insert>
 
-    <select id="deleteUser" parameterType="String">
+    <delete id="deleteUser" parameterType="String">
         delete from user where user_id = #{userId}
-    </select>
+    </delete>
 
-    <select id="modifyName">
+    <update id="modifyName">
         update user set name = #{newName} where user_id = #{userId}
-    </select>
+    </update>
 
-    <select id="modifyPassword">
+    <update id="modifyPassword">
         update user set password = #{newPwd} where user_id = #{userId}
-    </select>
+    </update>
 
 </mapper>
