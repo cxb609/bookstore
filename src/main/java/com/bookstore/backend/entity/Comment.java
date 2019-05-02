@@ -8,6 +8,6 @@ import java.sql.Timestamp;
 public class Comment {
     private String user_id;
     private String book_id;
-    private Timestamp date;
+    private long date;
     private String comment;
 }

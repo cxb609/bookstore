@@ -20,21 +20,21 @@
             select * from comment where book_id = #{book_id}
         </select>
 
-        <select id="insertBookComment" parameterType="Comment">
+        <insert id="insertBookComment" parameterType="Comment">
             insert into comment values (#{user_id},#{book_id},#{date},#{comment})
-        </select>
+        </insert>
 
-        <select id="deleteBookById" parameterType="String">
+        <delete id="deleteBookById" parameterType="String">
             delete from book where book_id = #{book_id}
-        </select>
+        </delete>
 
-        <select id="addBook" parameterType="Book">
+        <insert id="addBook" parameterType="Book">
             insert into book values (#{book_id},#{title},#{author},#{publisher},#{language},#{isbn},#{size},#{weight},#{brand},#{category},#{price},#{picture},#{stock},#{sale},#{description})
-        </select>
+        </insert>
     
-        <select id="updateBookSS">
+        <update id="updateBookSS">
             update book set stock=stock-#{num},sale=sale+#{num} where book_id = #{book_id}
-        </select>
+        </update>
 
         <select id="getHomeBook" resultType="ShowBook">
             select book_id,title,author,category,price,picture from book order by sale desc limit 0,5

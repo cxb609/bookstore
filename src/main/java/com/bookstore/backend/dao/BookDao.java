@@ -43,25 +43,25 @@ public interface BookDao {
      * 插入书评
      * @param comment
      */
-    void insertBookComment(Comment comment);
+    Integer insertBookComment(Comment comment);
 
     /**
      * 删除图书
      * @param book_id
      */
-    void deleteBookById(String book_id);
+    Integer deleteBookById(String book_id);
 
     /**
      * 添加图书
      * @param book
      */
-    void addBook(Book book);
+    Integer addBook(Book book);
 
     /**
      * 库存stock-1 销量sale+1
      * @param book_id
      */
-    void updateBookSS(@Param("book_id") String book_id, @Param("num") int num);
+    Integer updateBookSS(@Param("book_id") String book_id, @Param("num") int num);
 
     /**
      * 首页获取的销量前五的图书

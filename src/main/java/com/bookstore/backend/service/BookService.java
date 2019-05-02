@@ -104,13 +104,23 @@ public class BookService {
         return Result.OK(resultData).build();
     }
 
+    /**
+     * 添加评论
+     * @param user_id
+     * @param book_id
+     * @param commentMsg
+     * @return
+     */
     public Result postComments(String user_id, String book_id, String commentMsg){
-
         Comment comment = new Comment();
         comment.setUser_id(user_id);
         comment.setBook_id(book_id);
-        //comment.setDate(System.currentTimeMillis());
+        comment.setDate(System.currentTimeMillis());
         comment.setComment(commentMsg);
-        return null;
+        Integer affectedRow = bookDao.insertBookComment(comment);
+        if(affectedRow == 0){
+            throw new ServiceException(ErrorCode.SERVER_EXCEPTION,"添加评论失败");
+        }
+        return Result.OK("添加评论成功").build();
     }
 }

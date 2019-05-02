@@ -6,6 +6,7 @@ import com.bookstore.backend.entity.ShowBook;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.bookstore.backend.entity.Book;
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,13 +57,12 @@ public class BookDaoTest {
 
     @Test
     public void insertBookCommentTest(){
-        System.out.println(System.currentTimeMillis());
         Comment comment = new Comment();
         comment.setBook_id("B00112Y93U");
         comment.setUser_id("U0001");
-        comment.setDate(new Timestamp(System.currentTimeMillis()));
+        comment.setDate(System.currentTimeMillis());
         comment.setComment("好书");
-        bookDao.insertBookComment(comment);
+        Assert.assertEquals(bookDao.insertBookComment(comment),new Integer(1));
     }
 
     @Test
