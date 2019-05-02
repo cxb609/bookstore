@@ -35,6 +35,7 @@ public class BookService {
         resultData.put("data",page.getList());
         return Result.OK(resultData).build();
     }
+
     /**
      * 获取首页推荐图书
      * @return
@@ -90,22 +91,26 @@ public class BookService {
     /**
      * 根据id查找书的详情
      * @param book_id
+     * @param commentPage
      * @return
      */
-    public Result getBookBaseInfo(String book_id){
+    public Result getBookBaseInfo(String book_id, int commentPage){
         Book book = bookDao.getBookById(book_id);
         if(book == null){
             throw new ServiceException(ErrorCode.SERVER_EXCEPTION,"图书详情信息获取失败");
         }
         Map<String,Object> resultData = new LinkedHashMap<>();
         resultData.put("data",book);
+        PageHelper.startPage(commentPage,10);
         List<Comment> commentList = bookDao.getBookCommentsById(book_id);
+        PageInfo<Comment> page = new PageInfo<>(commentList);
+        resultData.put("commentsNum",page.getTotal());
         resultData.put("comments",commentList);
         return Result.OK(resultData).build();
     }
 
     /**
-     * 添加评论
+     * 添加评论。错误返回代码有问题，无法判断是数据库问题还是用户输入问题，暂时都返回服务器问题。
      * @param user_id
      * @param book_id
      * @param commentMsg
@@ -122,5 +127,86 @@ public class BookService {
             throw new ServiceException(ErrorCode.SERVER_EXCEPTION,"添加评论失败");
         }
         return Result.OK("添加评论成功").build();
+    }
+
+    /**
+     * 删除图书
+     * @param book_id
+     * @return
+     */
+    public Result deleteBook(String book_id){
+        Integer affectedRow = bookDao.deleteBookById(book_id);
+        if(affectedRow == 0){
+            throw new ServiceException(ErrorCode.SERVER_EXCEPTION,"删除图书失败");
+        }
+        return Result.OK("删除图书成功").build();
+    }
+
+    /**
+     * 添加图书。目前用不到
+     * @param book_id
+     * @param title
+     * @param publisher
+     * @param language
+     * @param isbn
+     * @param size
+     * @param weight
+     * @param brand
+     * @param category
+     * @param price
+     * @param picture
+     * @param stock
+     * @param sale
+     * @param description
+     * @return
+     */
+    public Result postBook(String book_id, String title, String publisher, String language, String isbn, String size,
+                           String weight, String brand, String category, double price, String picture, int stock, int sale,
+                           String description){
+        Book book = new Book();
+        book.setBook_id(book_id);
+        book.setPublisher(publisher);
+        book.setLanguage(language);
+        book.setIsbn(isbn);
+        book.setSize(size);
+        book.setWeight(weight);
+        book.setBrand(brand);
+        book.setCategory(category);
+        book.setPrice(price);
+        book.setPicture(picture);
+        book.setStock(stock);
+        book.setSale(sale);
+        book.setDescription(description);
+        Integer affectedRow = bookDao.addBook(book);
+        if(affectedRow == 0){
+            throw new ServiceException(ErrorCode.SERVER_EXCEPTION,"添加图书失败");
+        }
+        return Result.OK("添加图书成功").build();
+    }
+
+    /**
+     * 更新图书。暂时用不到
+     * @param book_id
+     * @param title
+     * @param publisher
+     * @param language
+     * @param isbn
+     * @param size
+     * @param weight
+     * @param brand
+     * @param category
+     * @param price
+     * @param picture
+     * @param stock
+     * @param sale
+     * @param description
+     * @return
+     */
+    public Result updateBook(String book_id, String title, String publisher, String language, String isbn, String size,
+                             String weight, String brand, String category, double price, String picture, int stock, int sale,
+                             String description){
+        bookDao.deleteBookById(book_id);
+        return postBook(book_id, title, publisher, language, isbn, size, weight, brand, category, price, picture, stock,
+                        sale, description);
     }
 }

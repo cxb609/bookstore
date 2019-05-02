@@ -31,8 +31,4 @@ public class BookController {
         return bookService.getBookInfoByCategory(category,page,10);
     }
 
-    @GetMapping("/{book_id}")
-    public Result getBookById(@PathVariable("book_id") String book_id){
-        return bookService.getBookBaseInfo(book_id);
-    }
 }
