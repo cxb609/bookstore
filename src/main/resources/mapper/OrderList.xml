@@ -9,7 +9,7 @@
     </select>
 
     <select id="getOrdersByUserIdAndDate" resultType="OrderList">
-        select * from order_list where user_id = #{userId} and date &gt;= #{start} and date &lt;= #{end})
+        select * from order_list where user_id = #{userId} and date &gt;= #{start} and date &lt;= #{end}
     </select>
 
     <select id="getOrdersByOrderId" parameterType="String" resultType="OrderList">
@@ -20,9 +20,12 @@
         insert into order_list values (#{order_id}, #{book_id}, #{user_id}, #{date}, #{quantity})
     </insert>
 
-<!--    <insert id="addOrders">-->
-<!--        insert into order_list values (#{order_id}, #{book_id}, #{user_id}, #{date}, #{quantity})-->
-<!--    </insert>-->
+    <insert id="addOrders">
+        insert into order_list values
+        <foreach collection="orderList" index="index" item="item" open="" separator="," close="">
+            (#{item.order_id, jdbcType=VARCHAR}, #{item.book_id, jdbcType=VARCHAR}, #{item.user_id, jdbcType=VARCHAR}, #{item.date, jdbcType=BIGINT}, #{item.quantity, jdbcType=INTEGER})
+        </foreach>
+    </insert>
 
     <delete id="deleteOrder">
         delete from order_list where order_id = #{orderId} and book_id = #{bookId}
