@@ -46,11 +46,11 @@ public class BookController{
      *
      *
      */
-    @RequestMapping(value="/books/{book_id}", method=GET, produces = "application/json;charset=UTF-8")
-    public Result getBookInfoById(@PathVariable("book_id") String book_id,@RequestParam(value = "page",required = false,defaultValue = "1") int page,@RequestParam(value = "pageSize",required = false,defaultValue = "15") int pageSize){
-        return bookService.getBookBaseInfo(book_id);
-
-    }
+//    @RequestMapping(value="/books/{book_id}", method=GET, produces = "application/json;charset=UTF-8")
+//    public Result getBookInfoById(@PathVariable("book_id") String book_id,@RequestParam(value = "page",required = false,defaultValue = "1") int page,@RequestParam(value = "pageSize",required = false,defaultValue = "15") int pageSize){
+//        return bookService.getBookBaseInfo(book_id);
+//
+//    }
 
     /**
      * 修改图书信息

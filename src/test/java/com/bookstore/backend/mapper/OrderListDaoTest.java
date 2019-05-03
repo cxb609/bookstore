@@ -19,6 +19,7 @@ import java.util.List;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class OrderListDaoTest {
+
     @Autowired
     private UserDao userDao;
 
@@ -32,7 +33,7 @@ public class OrderListDaoTest {
         user.setName("小兵");
         user.setPassword("123456");
         userDao.addUser(user);
-        List<OrderList> orderList1 = new ArrayList<OrderList>();
+        List<OrderList> orderList1 = new ArrayList<>();
         OrderList order = new OrderList();
         long currTime = System.currentTimeMillis();
         order.setOrder_id("o123456");
@@ -59,7 +60,7 @@ public class OrderListDaoTest {
         user.setName("小兵");
         user.setPassword("123456");
         userDao.addUser(user);
-        List<OrderList> orderList1 = new ArrayList<OrderList>();
+        List<OrderList> orderList1 = new ArrayList<>();
         OrderList order = new OrderList();
         long currTime = System.currentTimeMillis();
         order.setOrder_id("o123456");
@@ -86,7 +87,7 @@ public class OrderListDaoTest {
         user.setName("小兵");
         user.setPassword("123456");
         userDao.addUser(user);
-        List<OrderList> orderList1 = new ArrayList<OrderList>();
+        List<OrderList> orderList1 = new ArrayList<>();
         OrderList order = new OrderList();
         long currTime = System.currentTimeMillis();
         order.setOrder_id("o123456");
@@ -134,7 +135,7 @@ public class OrderListDaoTest {
         user.setName("小兵");
         user.setPassword("123456");
         userDao.addUser(user);
-        List<OrderList> orderList1 = new ArrayList<OrderList>();
+        List<OrderList> orderList1 = new ArrayList<>();
         OrderList order = new OrderList();
         long currTime = System.currentTimeMillis();
         order.setOrder_id("o123456");
@@ -169,7 +170,7 @@ public class OrderListDaoTest {
         order.setQuantity(10);;
         orderListDao.addOrder(order);
         orderListDao.deleteOrder("o123456", "B00112Y93U");
-        List<OrderList> nullList = new ArrayList<OrderList>();
+        List<OrderList> nullList = new ArrayList<>();
         Assert.assertEquals(nullList, orderListDao.getOrdersByOrderId("o123456"));
         userDao.deleteUser("U123456789");
     }
@@ -181,7 +182,7 @@ public class OrderListDaoTest {
         user.setName("小兵");
         user.setPassword("123456");
         userDao.addUser(user);
-        List<OrderList> orderList = new ArrayList<OrderList>();
+        List<OrderList> orderList = new ArrayList<>();
         OrderList order = new OrderList();
         long currTime = System.currentTimeMillis();
         order.setOrder_id("o123456");
@@ -195,7 +196,7 @@ public class OrderListDaoTest {
         orderList.add(order);
         orderListDao.addOrders(orderList);
         orderListDao.deleteOrdersByOrderId("o123456");
-        List<OrderList> nullList = new ArrayList<OrderList>();
+        List<OrderList> nullList = new ArrayList<>();
         Assert.assertEquals(nullList, orderListDao.getOrdersByOrderId("o123456"));
         userDao.deleteUser("U123456789");
     }

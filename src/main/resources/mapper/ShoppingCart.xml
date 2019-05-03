@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.bookstore.backend.dao.ShoppingCartDao">
+    <select id="getShoppingCart" resultType="ShoppingCart">
+        select * from shopping_cart where user_id = #{userId} and book_id = #{bookId}
+    </select>
+
+    <select id="getShoppingCartsByUserId" parameterType="String" resultType="ShoppingCart">
+        select * from shopping_cart where user_id = #{userId}
+    </select>
+
+    <insert id="addShoppingCart" parameterType="ShoppingCart">
+        insert into shopping_cart values (#{user_id}, #{book_id}, #{quantity})
+    </insert>
+
+    <insert id="addShoppingCarts">
+        insert into shopping_cart values
+        <foreach collection="shoppingCarts" index="index" item="item" open="" separator="," close="">
+            (#{item.user_id, jdbcType=VARCHAR}, #{item.book_id, jdbcType=VARCHAR}, #{item.quantity, jdbcType=INTEGER})
+        </foreach>
+    </insert>
+
+    <delete id="deleteShoppingCart">
+        delete from shopping_cart where user_id = #{userId} and book_id = #{bookId}
+    </delete>
+
+    <delete id="deleteShoppingCartsByUserId" parameterType="String">
+        delete from shopping_cart where user_id = #{userId}
+    </delete>
+
+    <update id="modifyQuantity">
+        update shopping_cart set quantity = #{newQuantity} where user_id = #{userId} and book_id = #{bookId}
+    </update>
+
+</mapper>

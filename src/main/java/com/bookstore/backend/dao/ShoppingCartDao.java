@@ -36,7 +36,7 @@ public interface ShoppingCartDao {
      * @param shoppingCarts
      * @return
      */
-    Integer addShoppingCarts(List<ShoppingCart> shoppingCarts);
+    Integer addShoppingCarts(@Param("shoppingCarts") List<ShoppingCart> shoppingCarts);
 
     /**
      * 删除购物车
