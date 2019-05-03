@@ -2,12 +2,11 @@ package com.bookstore.backend.service;
 
 import com.bookstore.backend.dao.BookDao;
 import com.bookstore.backend.dao.OrderListDao;
+import com.bookstore.backend.dao.ShoppingCartDao;
 import com.bookstore.backend.dao.UserDao;
 import com.bookstore.backend.entity.*;
 import com.bookstore.backend.util.OrderIdUtil;
-import com.sun.org.apache.xerces.internal.xs.datatypes.ObjectList;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.annotation.OrderUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -29,6 +28,8 @@ public class UserService {
 
     @Autowired
     BookDao bookDao;
+    @Autowired
+    ShoppingCartDao shoppingCartDao;
 
     /**
      * 登录
@@ -72,13 +73,13 @@ public class UserService {
 
     /**
      *修改密码
-     * @param name
+     * @param user_id
      * @param oldPassword
      * @param newPassword
      * @return
      */
-    public Result modifyPassword(String name, String oldPassword, String newPassword){
-        User user = userDao.getUserByName(name);
+    public Result modifyPassword(String user_id, String oldPassword, String newPassword){
+        User user = userDao.getUserById(user_id);
         if(user == null){
             throw new ServiceException(ErrorCode.PARAM_ERR_COMMON,"用户不存在");
         }else if(user.getPassword() != oldPassword){
@@ -108,13 +109,7 @@ public class UserService {
      * 获取订单
      * @return
      */
-    public Result getOrderList(){
-        //获取当前session，user_id存在即为登录状态
-        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-        String user_id = (String) request.getSession().getAttribute("user_id");
-        if(user_id == null){
-            throw new ServiceException(ErrorCode.PARAM_ERR_COMMON,"当前处于未登录状态，请登录");
-        }
+    public Result getOrderList(String user_id){
         List<String> orderIdList = orderListDao.getOrderId(user_id);
         List<Map<String,Object>> resultData = new LinkedList<Map<String, Object>>();
         for(String orderId:orderIdList){
@@ -143,17 +138,13 @@ public class UserService {
 
     /**
      * 下单
+     * 前提：用户已登陆
      * @param orderLists
      * @return
      */
     @Transactional
-    public Result addOrder(List<OrderList> orderLists){
-        //获取当前session，user_id存在即为登录状态
-        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-        String user_id = (String) request.getSession().getAttribute("user_id");
-        if(user_id == null){
-            throw new ServiceException(ErrorCode.PARAM_ERR_COMMON,"当前处于未登录状态，请登录");
-        }
+    public Result addOrder(String user_id,List<OrderList> orderLists){
+
         String orderId = OrderIdUtil.getOrderId();
         long dateStamp = System.currentTimeMillis();
         for (OrderList order:orderLists) {
@@ -165,6 +156,7 @@ public class UserService {
                 throw new ServiceException(ErrorCode.PARAM_ERR_COMMON,"库存不足,请重新选择");
             }
             bookDao.updateBookSS(order.getBook_id(), order.getQuantity());
+            shoppingCartDao.deleteShoppingCart(user_id, order.getBook_id());
         }
         Integer affectedRow = orderListDao.addOrders(orderLists);
         if(affectedRow == 0){

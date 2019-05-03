@@ -19,10 +19,6 @@ public class PageController {
     @RequestMapping(value={"/","/home"}, method=GET, produces = "application/json;charset=UTF-8")
     public Result getHomeInfo(@RequestParam(value = "page",required = false,defaultValue = "1") int page,
                               @RequestParam(value = "pageSize",required = false,defaultValue = "15") int pageSize){
-        /*Map<String, Object> resultData = new LinkedHashMap<>();
-        Result result =bookService.getHomeBooksInfo();
-        Map<String, Object> data=(Map<String, Object>)result.getData();
-        int totalNum=(int)data.get("totalNum");*/
         return bookService.getHomeBooksInfo();
     }
     /**

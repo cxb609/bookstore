@@ -1,10 +1,16 @@
 package com.bookstore.backend.controller;
 
+import com.bookstore.backend.entity.ErrorCode;
 import com.bookstore.backend.entity.Result;
+import com.bookstore.backend.entity.ServiceException;
 import com.bookstore.backend.entity.ShoppingCart;
 import com.bookstore.backend.service.ShoppingCartService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
+
+import javax.servlet.http.HttpServletRequest;
 
 import static org.springframework.web.bind.annotation.RequestMethod.*;
 
@@ -15,44 +21,63 @@ public class ShoppingCartController {
 
     /**
      * 获取购物车信息
-     * @param user_id
+     * @param
      * @return
      */
-    @RequestMapping(value={"/carts/{user_id}"}, method=GET, produces = "application/json;charset=UTF-8")
-    public Result getCartInfo(@PathVariable("user_id") String user_id){
+    @RequestMapping(value={"/carts"}, method=GET, produces = "application/json;charset=UTF-8")
+    public Result getCartInfo(){
+        //获取当前session，user_id存在即为登录状态
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+        String user_id = (String) request.getSession().getAttribute("user_id");
+        if (user_id == null)
+            throw new ServiceException(ErrorCode.PARAM_ERR_COMMON, "未登录");
         return shoppingCartService.getUserCarts(user_id);
     }
 
     /**
      * 增加商品到购物车
-     * @param user_id
+     * @param
      * @param cart
      * @return
      */
-    @RequestMapping(value={"/carts/{user_id}"}, method=POST, produces = "application/json;charset=UTF-8")
-    public Result addCart(@PathVariable("user_id") String user_id, @RequestBody ShoppingCart cart){
+    @RequestMapping(value={"/carts"}, method=POST, produces = "application/json;charset=UTF-8")
+    public Result addCart( @RequestBody ShoppingCart cart){
+        //获取当前session，user_id存在即为登录状态
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+        String user_id = (String) request.getSession().getAttribute("user_id");
+        if (user_id == null)
+            throw new ServiceException(ErrorCode.PARAM_ERR_COMMON, "未登录");
         return shoppingCartService.addBookToCart(user_id,cart.getBook_id(),cart.getQuantity());
     }
 
     /**
      * 删除购物车中的商品
-     * @param user_id
      * @param cart
      * @return
      */
-    @RequestMapping(value={"/carts/{user_id}"}, method=DELETE, produces = "application/json;charset=UTF-8")
-    public Result deleteCart(@PathVariable("user_id") String user_id, @RequestBody ShoppingCart cart){
+    @RequestMapping(value={"/carts"}, method=DELETE, produces = "application/json;charset=UTF-8")
+    public Result deleteCart(@RequestBody ShoppingCart cart){
+        //获取当前session，user_id存在即为登录状态
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+        String user_id = (String) request.getSession().getAttribute("user_id");
+        if (user_id == null)
+            throw new ServiceException(ErrorCode.PARAM_ERR_COMMON, "未登录");
         return shoppingCartService.deleteBookFromCart(user_id,cart.getBook_id());
     }
 
     /**
      * 修改购物车商品数量
-     * @param user_id
+     * @param
      * @param cart
      * @return
      */
-    @RequestMapping(value={"/carts/{user_id}"}, method=PUT, produces = "application/json;charset=UTF-8")
-    public Result modifyBookQuantity(@PathVariable("user_id") String user_id, @RequestBody ShoppingCart cart){
+    @RequestMapping(value={"/carts"}, method=PUT, produces = "application/json;charset=UTF-8")
+    public Result modifyBookQuantity( @RequestBody ShoppingCart cart){
+        //获取当前session，user_id存在即为登录状态
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+        String user_id = (String) request.getSession().getAttribute("user_id");
+        if (user_id == null)
+            throw new ServiceException(ErrorCode.PARAM_ERR_COMMON, "未登录");
         return shoppingCartService.updateBookQuantity(user_id,cart.getBook_id(), cart.getQuantity());
     }
 }

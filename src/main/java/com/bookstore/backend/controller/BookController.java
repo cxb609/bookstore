@@ -4,7 +4,6 @@ import com.bookstore.backend.entity.Book;
 import com.bookstore.backend.entity.Comment;
 import com.bookstore.backend.entity.Result;
 import com.bookstore.backend.service.BookService;
-import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

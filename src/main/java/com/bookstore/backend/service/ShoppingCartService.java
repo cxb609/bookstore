@@ -1,15 +1,9 @@
 package com.bookstore.backend.service;
 import com.bookstore.backend.dao.ShoppingCartDao;
 import com.bookstore.backend.entity.*;
-import com.github.pagehelper.Page;
-import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
-
-import javax.servlet.http.HttpServletRequest;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -66,9 +60,7 @@ public class ShoppingCartService {
         if(affectedRow==0)
         {
             Result result=addBookToCart(user_id,book_id,quantity);
-            if(result.getStatusCode()==200)
-                return Result.OK("修改商品数量成功").build();
-            else
+            if(result.getStatusCode()!=200)
                 throw new ServiceException(ErrorCode.SERVER_EXCEPTION,"修改商品数量失败");
         }
         return Result.OK("修改商品数量成功").build();
