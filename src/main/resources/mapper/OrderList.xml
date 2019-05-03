@@ -39,4 +39,15 @@
         update order_list set quantity = #{newQuantity} where order_id = #{orderId} and book_id = #{bookId}
     </update>
 
+    <select id="getTotalPrice" resultType="double">
+        select sum(price * quantity) from (
+            select price, quantity from (
+	            select * from order_list where order_id = #{orderId}
+            ) as temp natural join book
+        ) as price_quantity
+    </select>
+
+    <select id="getTotalQuantity" resultType="int">
+        select sum(quantity) from (select quantity from order_list where order_id = #{orderId}) as temp
+    </select>
 </mapper>

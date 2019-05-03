@@ -223,4 +223,14 @@ public class OrderListDaoTest {
         orderListDao.deleteOrdersByOrderId("o123456");
         userDao.deleteUser("U123456789");
     }
+
+    @Test
+    public void getTotalPriceTest(){
+        Assert.assertEquals(91.4, orderListDao.getTotalPrice("test"), 0.000001);
+    }
+
+    @Test
+    public void getTotalQuantityTest(){
+        Assert.assertEquals(3, orderListDao.getTotalQuantity("test"));
+    }
 }
