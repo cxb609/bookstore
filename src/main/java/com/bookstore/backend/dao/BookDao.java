@@ -78,4 +78,10 @@ public interface BookDao {
      * @return
      */
     Book getBookById(String book_id);
+
+    /**
+     * 获取分类
+     * @return
+     */
+    List<String> getCategory();
 }

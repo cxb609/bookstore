@@ -37,6 +37,18 @@ public class BookService {
     }
 
     /**
+     * 获取全部分类
+     * @return
+     */
+    public Result getCategories(){
+        List<String> categories = bookDao.getCategory();
+        if(categories == null){
+            throw new ServiceException(ErrorCode.SERVER_EXCEPTION,"图书分类获取失败");
+        }
+        return Result.OK(categories).build();
+    }
+
+    /**
      * 获取首页推荐图书
      * @return
      */

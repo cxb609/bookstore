@@ -2,6 +2,7 @@ package com.bookstore.backend.mapper;
 
 import com.bookstore.backend.dao.BookDao;
 import com.bookstore.backend.entity.Comment;
+import com.bookstore.backend.entity.OrderList;
 import com.bookstore.backend.entity.ShowBook;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -14,10 +15,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.sql.Timestamp;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-import java.util.Locale;
+import java.util.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -75,4 +73,20 @@ public class BookDaoTest {
         Book book = bookDao.getBookById("B00112Y93U");
         System.out.println(book);
     }
+
+    @Test
+    public void getCate0goryTest(){
+        System.out.println(bookDao.getCategory());
+    }
+//    @Test
+//    public void myTest(){
+//        List<OrderList> a = new LinkedList<>();
+//        OrderList b = new OrderList();
+//        b.setBook_id("aa");
+//        a.add(b);
+//        for(OrderList bb:a){
+//            bb.setUser_id("aaa");
+//        }
+//        System.out.println(a);
+//    }
 }
