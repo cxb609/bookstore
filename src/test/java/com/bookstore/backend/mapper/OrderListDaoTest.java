@@ -233,4 +233,9 @@ public class OrderListDaoTest {
     public void getTotalQuantityTest(){
         Assert.assertEquals(3, orderListDao.getTotalQuantity("test"));
     }
+
+    @Test
+    public void getOrderIdTest(){
+        System.out.println(orderListDao.getOrderId("U0001"));
+    }
 }

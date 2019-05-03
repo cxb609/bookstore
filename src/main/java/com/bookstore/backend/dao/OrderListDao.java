@@ -83,4 +83,11 @@ public interface OrderListDao {
      * @return
      */
     int getTotalQuantity(@Param("orderId") String orderId);
+
+    /**
+     * 获取该用户的所有订单号
+     * @param userId
+     * @return
+     */
+    List<String> getOrderId(@Param("userId") String userId);
 }

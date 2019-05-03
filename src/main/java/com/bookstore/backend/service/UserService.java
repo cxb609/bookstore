@@ -5,6 +5,7 @@ import com.bookstore.backend.dao.OrderListDao;
 import com.bookstore.backend.dao.UserDao;
 import com.bookstore.backend.entity.*;
 import com.bookstore.backend.util.OrderIdUtil;
+import com.sun.org.apache.xerces.internal.xs.datatypes.ObjectList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.OrderUtils;
 import org.springframework.stereotype.Service;
@@ -13,6 +14,8 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -112,8 +115,30 @@ public class UserService {
         if(user_id == null){
             throw new ServiceException(ErrorCode.PARAM_ERR_COMMON,"当前处于未登录状态，请登录");
         }
-        List<OrderList> orderLists = orderListDao.getOrdersByUserId(user_id);
-        return Result.OK(orderLists).build();
+        List<String> orderIdList = orderListDao.getOrderId(user_id);
+        List<Map<String,Object>> resultData = new LinkedList<Map<String, Object>>();
+        for(String orderId:orderIdList){
+            Map<String,Object> orderMap = new HashMap<>();
+            orderMap.put("order_id",orderId);
+            List<OrderList> orderLists = orderListDao.getOrdersByOrderId(orderId);
+            orderMap.put("date", orderLists.get(0).getDate());
+            orderMap.put("total_price",orderListDao.getTotalPrice(orderId));
+            orderMap.put("total_quantity", orderListDao.getTotalQuantity(orderId));
+            List<Map<String,Object>> bookList = new LinkedList<>();
+            for(OrderList orderList:orderLists){
+                Map<String,Object> bookInfo = new HashMap<>();
+                Book book = bookDao.getBookById(orderList.getBook_id());
+                bookInfo.put("price",book.getPrice());
+                bookInfo.put("title",book.getTitle());
+                bookInfo.put("picture",book.getPicture());
+                bookInfo.put("book_id",book.getBook_id());
+                bookInfo.put("quantity",orderList.getQuantity());
+                bookList.add(bookInfo);
+            }
+            orderMap.put("book_list",bookList);
+            resultData.add(orderMap);
+        }
+        return Result.OK(resultData).build();
     }
 
     /**

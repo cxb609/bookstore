@@ -50,4 +50,8 @@
     <select id="getTotalQuantity" resultType="int">
         select sum(quantity) from (select quantity from order_list where order_id = #{orderId}) as temp
     </select>
+
+    <select id="getOrderId" resultType="String">
+        select distinct order_id from order_list where user_id = #{userId}
+    </select>
 </mapper>
