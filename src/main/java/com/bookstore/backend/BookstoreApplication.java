@@ -5,19 +5,21 @@ import com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.http.HttpMessageConverters;
+import org.springframework.boot.web.servlet.ServletComponentScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.mybatis.spring.annotation.MapperScan;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import java.util.List;
 
 @SpringBootApplication
 @MapperScan("com.bookstore.backend.dao")
+@ServletComponentScan
 public class BookstoreApplication {
 
     private static Logger logger = LoggerFactory.getLogger(BookstoreApplication.class);
 
+    //使用fastJson格式化web层输出的json
     @Bean
     public HttpMessageConverters fastJsonHttpMessageConverters() {
         //1、定义一个convert转换消息的对象

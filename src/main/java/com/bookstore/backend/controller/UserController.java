@@ -1,28 +1,25 @@
 package com.bookstore.backend.controller;
 
 import com.bookstore.backend.entity.User;
-import com.bookstore.backend.entity.Comment;
 import com.bookstore.backend.entity.Result;
-import com.bookstore.backend.service.BookService;
-import com.github.pagehelper.PageHelper;
+import com.bookstore.backend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-
 import static org.springframework.web.bind.annotation.RequestMethod.*;
+
 @RestController
 public class UserController {
     @Autowired
-    private BookService bookService;
+    private UserService userService;
+
     /**
      * 登录
-     *
-     *
+     * @param user
+     * @return
      */
     @RequestMapping(value="/users", method=POST, produces = "application/json;charset=UTF-8")
     public Result login(@RequestBody User user){
-        //todo
-        return null;
+        return userService.login(user.getName(),user.getPassword());
     }
     /**
      * 注册
@@ -31,8 +28,8 @@ public class UserController {
      */
     @RequestMapping(value="/register", method=POST, produces = "application/json;charset=UTF-8")
     public Result register(@RequestBody User user){
-        //todo
-        return null;
+        //System.out.print(user.getUser_id()+user.getName()+user.getPassword());
+        return userService.register(user.getName(),user.getPassword());
     }
     /**
      * 修改密码

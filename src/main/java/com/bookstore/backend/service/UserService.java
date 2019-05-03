@@ -45,7 +45,7 @@ public class UserService {
         user.setName(name);
         user.setPassword(password);
         //Integer affectedRow = userDao.addUser(user);
-        return null;
+        return Result.OK(null).build();
     }
 
 }
