@@ -16,22 +16,34 @@ public class PageController {
      *
      *
      */
-    @RequestMapping(value="/home", method=GET, produces = "application/json;charset=UTF-8")
-    public Result getHomeInfo(@RequestParam(value = "page",required = false,defaultValue = "1") int page,@RequestParam(value = "pageSize",required = false,defaultValue = "15") int pageSize){
+    @RequestMapping(value={"/","/home"}, method=GET, produces = "application/json;charset=UTF-8")
+    public Result getHomeInfo(@RequestParam(value = "page",required = false,defaultValue = "1") int page,
+                              @RequestParam(value = "pageSize",required = false,defaultValue = "15") int pageSize){
         /*Map<String, Object> resultData = new LinkedHashMap<>();
         Result result =bookService.getHomeBooksInfo();
         Map<String, Object> data=(Map<String, Object>)result.getData();
         int totalNum=(int)data.get("totalNum");*/
         return bookService.getHomeBooksInfo();
     }
-
+    /**
+     * 获取分类页图书信息
+     *
+     *
+     */
+    @RequestMapping(value="/categories", method=GET, produces = "application/json;charset=UTF-8")
+    public Result listBooks(@PathVariable("category") String category){
+        //todo
+        return null;
+    }
     /**
      * 获取分类页图书信息
      *
      *
      */
     @RequestMapping(value="/categories/{category}", method=GET, produces = "application/json;charset=UTF-8")
-    public Result listBooks(@PathVariable("category") String category,@RequestParam(value = "page",required = false,defaultValue = "1") int page,@RequestParam(value = "pageSize",required = false,defaultValue = "15") int pageSize){
+    public Result listBooks(@PathVariable("category") String category,
+                            @RequestParam(value = "page",required = false,defaultValue = "1") int page,
+                            @RequestParam(value = "pageSize",required = false,defaultValue = "15") int pageSize){
         return bookService.getBookInfoByCategory(category,page,pageSize);
     }
 
@@ -40,8 +52,10 @@ public class PageController {
      *
      *
      */
-    @RequestMapping(value="/search/{keyWords}/{page}/{pageSize}", method=GET, produces = "application/json;charset=UTF-8")
-    public Result searchByKey(@PathVariable("keyWords") String keyword,@PathVariable("page") int page,@PathVariable("pageSize") int pageSize){
+    @RequestMapping(value="/search/{keyWords}", method=GET, produces = "application/json;charset=UTF-8")
+    public Result searchByKey(@PathVariable("keyWords") String keyword,
+                              @RequestParam(value = "page",required = false,defaultValue = "1") int page,
+                              @RequestParam(value = "pageSize",required = false,defaultValue = "15") int pageSize){
         return bookService.getBookInfoByKeyword(keyword, page, pageSize);
     }
 

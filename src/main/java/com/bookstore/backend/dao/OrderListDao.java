@@ -69,4 +69,18 @@ public interface OrderListDao {
      * @return
      */
     Integer modifyQuantity(@Param("orderId") String orderId, @Param("bookId") String bookId, @Param("newQuantity") int newQuantity);
+
+    /**
+     * 计算一次订单的总价格
+     * @param orderId
+     * @return
+     */
+    double getTotalPrice(@Param("orderId") String orderId);
+
+    /**
+     * 计算一次订单的总数量
+     * @param orderId
+     * @return
+     */
+    int getTotalQuantity(@Param("orderId") String orderId);
 }

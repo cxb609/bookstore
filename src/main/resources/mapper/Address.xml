@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.bookstore.backend.dao.AddressDao">
+    <select id="getAddresses" resultType="Address">
+        select * from address where user_id = #{userId}
+    </select>
+
+    <insert id="addAddress">
+        insert into address values (#{address.user_id}, #{address.address})
+    </insert>
+
+    <insert id="addAddresses">
+        insert into address values
+        <foreach collection="addresses" index="index" item="item" open="" separator="," close="">
+            (#{item.user_id, jdbcType=VARCHAR}, #{item.address, jdbcType=VARCHAR})
+        </foreach>
+    </insert>
+
+    <delete id="deleteAddress">
+        delete from address where user_id = #{userId} and address = #{address}
+    </delete>
+
+    <delete id="deleteAddresses">
+        delete from address where user_id = #{userId}
+    </delete>
+
+    <update id="modifyAddress">
+        update address set address = #{newAddress} where user_id = #{userId} and address = #{address}
+    </update>
+</mapper>
