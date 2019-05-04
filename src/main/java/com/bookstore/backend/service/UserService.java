@@ -1,11 +1,9 @@
 package com.bookstore.backend.service;
 
-import com.bookstore.backend.dao.BookDao;
-import com.bookstore.backend.dao.OrderListDao;
-import com.bookstore.backend.dao.ShoppingCartDao;
-import com.bookstore.backend.dao.UserDao;
+import com.bookstore.backend.dao.*;
 import com.bookstore.backend.entity.*;
 import com.bookstore.backend.util.OrderIdUtil;
+import com.bookstore.backend.util.UserIdUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,8 +26,12 @@ public class UserService {
 
     @Autowired
     BookDao bookDao;
+
     @Autowired
     ShoppingCartDao shoppingCartDao;
+
+    @Autowired
+    AddressDao addressDao;
 
     /**
      * 登录
@@ -62,6 +64,7 @@ public class UserService {
             throw new ServiceException(ErrorCode.PARAM_ERR_COMMON,"用户名已存在");
         }
         User user = new User();
+        user.setUser_id(UserIdUtil.produceUserId());
         user.setName(name);
         user.setPassword(password);
         Integer affectedRow = userDao.addUser(user);
@@ -82,7 +85,7 @@ public class UserService {
         User user = userDao.getUserById(user_id);
         if(user == null){
             throw new ServiceException(ErrorCode.PARAM_ERR_COMMON,"用户不存在");
-        }else if(user.getPassword() != oldPassword){
+        }else if(!oldPassword.equals(user.getPassword())){
             throw new ServiceException(ErrorCode.PARAM_ERR_COMMON, "密码验证错误");
         }
         Integer affectedRow = userDao.modifyPassword(user.getUser_id(), newPassword);
@@ -163,5 +166,46 @@ public class UserService {
             throw new ServiceException(ErrorCode.SERVER_EXCEPTION,"添加订单失败，请重试");
         }
         return Result.OK("添加订单成功").build();
+    }
+
+    /**
+     * 获取用户所有地址
+     * @param user_id
+     * @return
+     */
+    public Result getAddresses(String user_id){
+        List<Address> addressList = addressDao.getAddresses(user_id);
+        return Result.OK(addressList).build();
+    }
+
+    /**
+     * 添加地址
+     * @param user_id
+     * @param address
+     * @return
+     */
+    public Result addAddress(String user_id, String address){
+        Address addr = new Address();
+        addr.setUser_id(user_id);
+        addr.setAddress(address);
+        Integer affectedRow = addressDao.addAddress(addr);
+        if(affectedRow == 0){
+            throw new ServiceException(ErrorCode.SERVER_EXCEPTION,"添加地址失败");
+        }
+        return Result.OK("添加地址成功").build();
+    }
+
+    /**
+     * 删除地址
+     * @param user_id
+     * @param address
+     * @return
+     */
+    public Result deleteAddress(String user_id, String address){
+        Integer affectedRow = addressDao.deleteAddress(user_id, address);
+        if(affectedRow == 0){
+            throw new ServiceException(ErrorCode.SERVER_EXCEPTION,"删除地址失败");
+        }
+        return Result.OK("删除地址成功").build();
     }
 }

@@ -1,12 +1,14 @@
 package com.bookstore.backend.service;
 
 import com.bookstore.backend.dao.BookDao;
+import com.bookstore.backend.dao.OrderListDao;
 import com.bookstore.backend.entity.*;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -15,6 +17,9 @@ import java.util.*;
 public class BookService {
     @Autowired
     private BookDao bookDao;
+
+    @Autowired
+    private OrderListDao orderListDao;
 
     private Logger logger = LoggerFactory.getLogger(BookService.class);
 
@@ -106,14 +111,14 @@ public class BookService {
      * @param commentPage
      * @return
      */
-    public Result getBookBaseInfo(String book_id, int commentPage){
+    public Result getBookBaseInfo(String book_id, int commentPage, int pageSize){
         Book book = bookDao.getBookById(book_id);
         if(book == null){
             throw new ServiceException(ErrorCode.SERVER_EXCEPTION,"图书详情信息获取失败");
         }
         Map<String,Object> resultData = new LinkedHashMap<>();
         resultData.put("data",book);
-        PageHelper.startPage(commentPage,10);
+        PageHelper.startPage(commentPage, pageSize);
         List<Comment> commentList = bookDao.getBookCommentsById(book_id);
         PageInfo<Comment> page = new PageInfo<>(commentList);
         resultData.put("commentsNum",page.getTotal());
@@ -129,6 +134,17 @@ public class BookService {
      * @return
      */
     public Result postComments(String user_id, String book_id, String commentMsg){
+        List<OrderList> orderLists = orderListDao.getOrdersByUserId(user_id);
+        boolean isOrder = false;
+        for(OrderList orderList:orderLists){
+            if(orderList.getBook_id() == book_id){
+                isOrder = true;
+                break;
+            }
+        }
+        if(!isOrder){
+            throw new ServiceException(ErrorCode.PARAM_ERR_COMMON,"该用户无法评论此书");
+        }
         Comment comment = new Comment();
         comment.setUser_id(user_id);
         comment.setBook_id(book_id);
@@ -172,11 +188,13 @@ public class BookService {
      * @param description
      * @return
      */
-    public Result postBook(String book_id, String title, String publisher, String language, String isbn, String size,
+    public Result postBook(String book_id, String title, String author, String publisher, String language, String isbn, String size,
                            String weight, String brand, String category, double price, String picture, int stock, int sale,
                            String description){
         Book book = new Book();
         book.setBook_id(book_id);
+        book.setTitle(title);
+        book.setAuthor(author);
         book.setPublisher(publisher);
         book.setLanguage(language);
         book.setIsbn(isbn);
@@ -214,11 +232,30 @@ public class BookService {
      * @param description
      * @return
      */
-    public Result updateBook(String book_id, String title, String publisher, String language, String isbn, String size,
+    public Result updateBook(String book_id, String title, String author, String publisher, String language, String isbn, String size,
                              String weight, String brand, String category, double price, String picture, int stock, int sale,
                              String description){
         bookDao.deleteBookById(book_id);
-        return postBook(book_id, title, publisher, language, isbn, size, weight, brand, category, price, picture, stock,
-                        sale, description);
+        Book book = new Book();
+        book.setBook_id(book_id);
+        book.setTitle(title);
+        book.setAuthor(author);
+        book.setPublisher(publisher);
+        book.setLanguage(language);
+        book.setIsbn(isbn);
+        book.setSize(size);
+        book.setWeight(weight);
+        book.setBrand(brand);
+        book.setCategory(category);
+        book.setPrice(price);
+        book.setPicture(picture);
+        book.setStock(stock);
+        book.setSale(sale);
+        book.setDescription(description);
+        Integer affectedRow = bookDao.addBook(book);
+        if(affectedRow == 0){
+            throw new ServiceException(ErrorCode.SERVER_EXCEPTION,"修改图书失败");
+        }
+        return Result.OK("修改图书成功").build();
     }
 }
