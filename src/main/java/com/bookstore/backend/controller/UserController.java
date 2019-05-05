@@ -37,9 +37,7 @@ public class UserController {
      */
     @RequestMapping(value="/register", method=POST, produces = "application/json;charset=UTF-8")
     public Result register(@RequestBody User user){
-
         return userService.register(user.getName(),user.getPassword());
-
     }
     /**
      * 修改密码

@@ -22,14 +22,13 @@ public class PageController {
         return bookService.getHomeBooksInfo();
     }
     /**
-     * 获取分类页图书信息
+     * 获取分类
      *
      *
      */
     @RequestMapping(value="/categories", method=GET, produces = "application/json;charset=UTF-8")
-    public Result listBooks(@PathVariable("category") String category){
-        //todo
-        return null;
+    public Result listBooks(){
+        return bookService.getCategories();
     }
     /**
      * 获取分类页图书信息
