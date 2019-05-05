@@ -17,7 +17,7 @@ public class PageController {
      *
      */
     @RequestMapping(value={"/","/home"}, method=GET, produces = "application/json;charset=UTF-8")
-    public Result getHomeInfo(@RequestParam(value = "page",required = false,defaultValue = "1") int page,
+    public Result getHomeInfo(@RequestParam(value = "page",required = false,defaultValue = "0") int page,
                               @RequestParam(value = "pageSize",required = false,defaultValue = "15") int pageSize){
         return bookService.getHomeBooksInfo();
     }
@@ -37,7 +37,7 @@ public class PageController {
      */
     @RequestMapping(value="/categories/{category}", method=GET, produces = "application/json;charset=UTF-8")
     public Result listBooks(@PathVariable("category") String category,
-                            @RequestParam(value = "page",required = false,defaultValue = "1") int page,
+                            @RequestParam(value = "page",required = false,defaultValue = "0") int page,
                             @RequestParam(value = "pageSize",required = false,defaultValue = "15") int pageSize){
         return bookService.getBookInfoByCategory(category,page,pageSize);
     }
@@ -49,7 +49,7 @@ public class PageController {
      */
     @RequestMapping(value="/search/{keyWords}", method=GET, produces = "application/json;charset=UTF-8")
     public Result searchByKey(@PathVariable("keyWords") String keyword,
-                              @RequestParam(value = "page",required = false,defaultValue = "1") int page,
+                              @RequestParam(value = "page",required = false,defaultValue = "0") int page,
                               @RequestParam(value = "pageSize",required = false,defaultValue = "15") int pageSize){
         return bookService.getBookInfoByKeyword(keyword, page, pageSize);
     }
