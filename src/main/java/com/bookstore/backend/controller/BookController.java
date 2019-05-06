@@ -40,10 +40,22 @@ public class BookController {
      * 按ID查书
      */
     @RequestMapping(value = "/books/{book_id}", method = GET, produces = "application/json;charset=UTF-8")
-    public Result getBookInfoById(@PathVariable("book_id") String book_id,
+    public Result getBookInfoById(@PathVariable("book_id") String book_id) {
+        return bookService.getBookBaseInfo(book_id);
+    }
+
+    /**
+     * 分页获取图书评论
+     * @param book_id
+     * @param page
+     * @param pageSize
+     * @return
+     */
+    @RequestMapping(value = "/books/{book_id}/comments", method = GET, produces = "application/json;charset=UTF-8")
+    public Result getBookComments(@PathVariable("book_id") String book_id,
                                   @RequestParam(value = "page", required = false, defaultValue = "0") int page,
-                                  @RequestParam(value = "pageSize", required = false, defaultValue = "15") int pageSize) {
-        return bookService.getBookBaseInfo(book_id, page, pageSize);
+                                  @RequestParam(value = "pageSize", required = false, defaultValue = "15") int pageSize){
+        return bookService.getBookComments(book_id,page,pageSize);
     }
 
     /**
@@ -69,7 +81,7 @@ public class BookController {
             throw new ServiceException(ErrorCode.PARAM_ERR_COMMON, "未登录");
         return bookService.postComments(user_id, book_id, comment);
     }
-    /*
+
     /**
      * 获取图书评论
 

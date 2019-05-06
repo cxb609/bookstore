@@ -111,16 +111,30 @@ public class BookService {
      * @param commentPage
      * @return
      */
-    public Result getBookBaseInfo(String book_id, int commentPage, int pageSize){
+    public Result getBookBaseInfo(String book_id){
         Book book = bookDao.getBookById(book_id);
         if(book == null){
             throw new ServiceException(ErrorCode.SERVER_EXCEPTION,"图书详情信息获取失败");
         }
-        Map<String,Object> resultData = new LinkedHashMap<>();
-        resultData.put("data",book);
+        return Result.OK(book).build();
+    }
+
+    /**
+     * 获取图书评论
+     * @param book_id
+     * @param commentPage
+     * @param pageSize
+     * @return
+     */
+    public Result getBookComments(String book_id, int commentPage, int pageSize){
+        Book book = bookDao.getBookById(book_id);
+        if(book == null){
+            throw new ServiceException(ErrorCode.SERVER_EXCEPTION,"图书不存在");
+        }
         PageHelper.startPage(commentPage, pageSize);
         List<Comment> commentList = bookDao.getBookCommentsById(book_id);
         PageInfo<Comment> page = new PageInfo<>(commentList);
+        Map<String,Object> resultData = new LinkedHashMap<>();
         resultData.put("commentsNum",page.getTotal());
         resultData.put("comments",commentList);
         return Result.OK(resultData).build();
