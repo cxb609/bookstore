@@ -52,5 +52,6 @@ public interface AddressDao {
      * @param newAddress
      * @return
      */
-    Integer modifyAddress(@Param("userId") String userId, @Param("address") String address, @Param("newAddress") String newAddress);
+    Integer modifyAddress(@Param("userId") String userId, @Param("address") String address, @Param("newAddress") String newAddress,
+                          @Param("telephone") long telephone, @Param("name") String name);
 }

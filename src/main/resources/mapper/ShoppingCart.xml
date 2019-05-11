@@ -35,4 +35,7 @@
         update shopping_cart set quantity = #{newQuantity} where user_id = #{userId} and book_id = #{bookId}
     </update>
 
+    <select id="findIsInCart" resultType="ShoppingCart">
+        select * from shopping_cart where user_id = #{userId} and book_id = #{bookId}
+    </select>
 </mapper>

@@ -108,7 +108,6 @@ public class BookService {
     /**
      * 根据id查找书的详情
      * @param book_id
-     * @param commentPage
      * @return
      */
     public Result getBookBaseInfo(String book_id){

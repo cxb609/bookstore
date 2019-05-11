@@ -50,6 +50,7 @@ public class UserService {
         //将用户id存入session，session包含用户id即表示处在登录状态。
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
         request.getSession().setAttribute("user_id",userInDb.getUser_id());
+//        System.out.println(request.getSession().getAttribute("user_id"));
         return Result.OK(userInDb.getUser_id()).build();
     }
 
@@ -60,6 +61,7 @@ public class UserService {
      * @return
      */
     public Result register(String name, String password){
+        System.out.println(userDao.getUserByName(name));
         if(userDao.getUserByName(name) != null){
             throw new ServiceException(ErrorCode.PARAM_ERR_COMMON,"用户名已存在");
         }
@@ -180,14 +182,11 @@ public class UserService {
 
     /**
      * 添加地址
-     * @param user_id
      * @param address
      * @return
      */
-    public Result addAddress(String user_id, String address){
+    public Result addAddress(Address address){
         Address addr = new Address();
-        addr.setUser_id(user_id);
-        addr.setAddress(address);
         Integer affectedRow = addressDao.addAddress(addr);
         if(affectedRow == 0){
             throw new ServiceException(ErrorCode.SERVER_EXCEPTION,"添加地址失败");

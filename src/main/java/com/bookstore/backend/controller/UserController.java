@@ -1,10 +1,6 @@
 package com.bookstore.backend.controller;
 
-import com.bookstore.backend.entity.ErrorCode;
-import com.bookstore.backend.entity.ServiceException;
-import com.bookstore.backend.entity.User;
-import com.bookstore.backend.entity.Result;
-import com.bookstore.backend.entity.OrderList;
+import com.bookstore.backend.entity.*;
 import com.bookstore.backend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -27,8 +23,8 @@ public class UserController {
      * @return
      */
     @RequestMapping(value="/users", method=POST, produces = "application/json;charset=UTF-8")
-    public Result login(@RequestBody User user){
-        return userService.login(user.getName(),user.getPassword());
+    public Result login(@RequestParam("name") String name, @RequestParam("password") String password){
+        return userService.login(name, password);
     }
     /**
      * 注册
@@ -36,8 +32,8 @@ public class UserController {
      *
      */
     @RequestMapping(value="/register", method=POST, produces = "application/json;charset=UTF-8")
-    public Result register(@RequestBody User user){
-        return userService.register(user.getName(),user.getPassword());
+    public Result register(@RequestParam("name") String name, @RequestParam("password") String password){
+        return userService.register(name, password);
     }
     /**
      * 修改密码
@@ -131,12 +127,13 @@ public class UserController {
      * @return
      */
     @RequestMapping(value="/address", method=PUT, produces = "application/json;charset=UTF-8")
-    public Result addAddress(@RequestBody String address){
+    public Result addAddress(@RequestBody Address address){
         //获取当前session，user_id存在即为登录状态
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
         String user_id = (String) request.getSession().getAttribute("user_id");
         if (user_id == null)
             throw new ServiceException(ErrorCode.PARAM_ERR_COMMON, "未登录");
-        return userService.addAddress(user_id,address);
+        address.setUser_id(user_id);
+        return userService.addAddress(address);
     }
 }

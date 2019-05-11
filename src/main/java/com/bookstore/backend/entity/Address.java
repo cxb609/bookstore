@@ -6,6 +6,8 @@ import lombok.Data;
 public class Address implements Cloneable{
     private String user_id;
     private String address;
+    private long telephone;
+    private String name;
 
     @Override
     public Address clone() {

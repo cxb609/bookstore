@@ -142,7 +142,8 @@ public class AddressDaoTest {
         addressDao.addAddress(address);
         address.setAddress("揭阳");
         addresses1.add(address);
-        addressDao.modifyAddress("U123456789", "广州", "揭阳");
+        long phone = 13192959087L;
+        addressDao.modifyAddress("U123456789", "广州", "揭阳", phone,"啊滨");
         List<Address> addresses2 = addressDao.getAddresses("U123456789");
         Assert.assertEquals(addresses1, addresses2);
         addressDao.deleteAddresses("U123456789");

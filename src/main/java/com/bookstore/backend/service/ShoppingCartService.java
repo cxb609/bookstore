@@ -1,12 +1,12 @@
 package com.bookstore.backend.service;
+import com.bookstore.backend.dao.BookDao;
 import com.bookstore.backend.dao.ShoppingCartDao;
 import com.bookstore.backend.entity.*;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+
+import java.util.*;
 
 
 @Service
@@ -14,6 +14,8 @@ public class ShoppingCartService {
     @Autowired
     ShoppingCartDao shoppingCartDao;
 
+    @Autowired
+    BookDao bookDao;
     /**
      * 添加商品到购物车
      * @param user_id
@@ -22,6 +24,10 @@ public class ShoppingCartService {
      * @return
      */
     public Result addBookToCart(String user_id,String book_id,int quantity){
+        ShoppingCart shoppingCart1 = shoppingCartDao.findIsInCart(user_id,book_id);
+        if(shoppingCart1 != null){
+            throw new ServiceException(ErrorCode.PARAM_ERR_COMMON,"该商品已在购物车");
+        }
         ShoppingCart shoppingCart=new ShoppingCart();
         shoppingCart.setUser_id(user_id);
         shoppingCart.setQuantity(quantity);
@@ -77,11 +83,18 @@ public class ShoppingCartService {
         if(cartList==null){
             throw new ServiceException(ErrorCode.SERVER_EXCEPTION,"购物车信息获取失败");
         }
-        Map<String, Object> resultData = new LinkedHashMap<>();
-        PageInfo<ShoppingCart> page = new PageInfo<>(cartList);
-        resultData.put("totalNum",page.getTotal());
-        resultData.put("data",page.getList());
-        return Result.OK(resultData).build();
+        List<Map<String,Object>> result = new LinkedList<>();
+        for (ShoppingCart shoppingCart:cartList) {
+            Map<String,Object> cart = new HashMap<>();
+            cart.put("book_id",shoppingCart.getBook_id());
+            cart.put("quantity",shoppingCart.getQuantity());
+            Book book = bookDao.getBookById(shoppingCart.getBook_id());
+            cart.put("price",book.getPrice());
+            cart.put("title",book.getTitle());
+            cart.put("picture",book.getPicture());
+            result.add(cart);
+        }
+        return Result.OK(result).build();
     }
 
 }

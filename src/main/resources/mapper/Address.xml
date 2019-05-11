@@ -28,6 +28,6 @@
     </delete>
 
     <update id="modifyAddress">
-        update address set address = #{newAddress} where user_id = #{userId} and address = #{address}
+        update address set address = #{newAddress}, telephone = #{telephone}, name = #{name} where user_id = #{userId} and address = #{address}
     </update>
 </mapper>

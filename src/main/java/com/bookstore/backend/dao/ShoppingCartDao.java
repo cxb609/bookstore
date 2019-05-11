@@ -61,4 +61,12 @@ public interface ShoppingCartDao {
      * @return
      */
     Integer modifyQuantity(@Param("userId") String userId, @Param("bookId") String bookId, @Param("newQuantity") int newQuantity);
+
+    /**
+     * 查找是否在购物车里
+     * @param userId
+     * @param bookId
+     * @return
+     */
+    ShoppingCart findIsInCart(@Param("userId") String userId, @Param("bookId") String bookId);
 }
