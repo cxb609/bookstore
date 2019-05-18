@@ -57,13 +57,13 @@ public class ShoppingCartController {
      * @return
      */
     @RequestMapping(value={"/carts"}, method=DELETE, produces = "application/json;charset=UTF-8")
-    public Result deleteCart(@RequestBody ShoppingCart cart){
+    public Result deleteCart(@RequestParam("book_id") String book_id){
         //获取当前session，user_id存在即为登录状态
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
         String user_id = (String) request.getSession().getAttribute("user_id");
         if (user_id == null)
             throw new ServiceException(ErrorCode.PARAM_ERR_COMMON, "未登录");
-        return shoppingCartService.deleteBookFromCart(user_id,cart.getBook_id());
+        return shoppingCartService.deleteBookFromCart(user_id, book_id);
     }
 
     /**
@@ -73,12 +73,12 @@ public class ShoppingCartController {
      * @return
      */
     @RequestMapping(value={"/carts"}, method=PUT, produces = "application/json;charset=UTF-8")
-    public Result modifyBookQuantity( @RequestBody ShoppingCart cart){
+    public Result modifyBookQuantity( @RequestParam("book_id") String book_id, @RequestParam("quantity") int quantity){
         //获取当前session，user_id存在即为登录状态
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
         String user_id = (String) request.getSession().getAttribute("user_id");
         if (user_id == null)
             throw new ServiceException(ErrorCode.PARAM_ERR_COMMON, "未登录");
-        return shoppingCartService.updateBookQuantity(user_id,cart.getBook_id(), cart.getQuantity());
+        return shoppingCartService.updateBookQuantity(user_id, book_id, quantity);
     }
 }
