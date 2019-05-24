@@ -220,6 +220,7 @@ public class BookService {
         book.setStock(stock);
         book.setSale(sale);
         book.setDescription(description);
+        System.out.println(book);
         Integer affectedRow = bookDao.addBook(book);
         if(affectedRow == 0){
             throw new ServiceException(ErrorCode.SERVER_EXCEPTION,"添加图书失败");
