@@ -26,6 +26,7 @@ public class CorsFilter implements Filter {
         response.setHeader("Access-Control-Allow-Credentials", "true");
         String method = request.getMethod();
         if(method.equalsIgnoreCase("OPTIONS")){
+            response.setHeader("Connection","keep-alive");
             servletResponse.getOutputStream().write("Success".getBytes("utf-8"));
         }else{
             filterChain.doFilter(servletRequest, servletResponse);

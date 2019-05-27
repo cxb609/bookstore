@@ -148,22 +148,26 @@ public class UserService {
      * @return
      */
     @Transactional
-    public Result addOrder(String user_id,List<OrderList> orderLists){
-
+    public Result addOrder(String user_id, List<Map<String,Object>> orderLists){
         String orderId = OrderIdUtil.getOrderId();
         long dateStamp = System.currentTimeMillis();
-        for (OrderList order:orderLists) {
+        List<OrderList> orderListList = new LinkedList<>();
+        for (Map<String,Object> element:orderLists) {
+            OrderList order = new OrderList();
             order.setOrder_id(orderId);
             order.setUser_id(user_id);
             order.setDate(dateStamp);
-            int stock = bookDao.getBookById(order.getBook_id()).getStock();
-            if(stock < order.getQuantity()){
+            int stock = bookDao.getBookById((String)element.get("bookId")).getStock();
+            if(stock < (int)element.get("quantity")){
                 throw new ServiceException(ErrorCode.PARAM_ERR_COMMON,"库存不足,请重新选择");
             }
+            order.setBook_id((String)element.get("bookId"));
+            order.setQuantity((int)element.get("quantity"));
             bookDao.updateBookSS(order.getBook_id(), order.getQuantity());
             shoppingCartDao.deleteShoppingCart(user_id, order.getBook_id());
+            orderListList.add(order);
         }
-        Integer affectedRow = orderListDao.addOrders(orderLists);
+        Integer affectedRow = orderListDao.addOrders(orderListList);
         if(affectedRow == 0){
             throw new ServiceException(ErrorCode.SERVER_EXCEPTION,"添加订单失败，请重试");
         }
@@ -185,8 +189,12 @@ public class UserService {
      * @param address
      * @return
      */
-    public Result addAddress(Address address){
+    public Result addAddress(String user_id, String address, long telephone, String name){
         Address addr = new Address();
+        addr.setUser_id(user_id);
+        addr.setAddress(address);
+        addr.setTelephone(telephone);
+        addr.setName(name);
         Integer affectedRow = addressDao.addAddress(addr);
         if(affectedRow == 0){
             throw new ServiceException(ErrorCode.SERVER_EXCEPTION,"添加地址失败");

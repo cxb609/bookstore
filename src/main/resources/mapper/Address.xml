@@ -9,7 +9,7 @@
     </select>
 
     <insert id="addAddress">
-        insert into address values (#{address.user_id}, #{address.address})
+        insert into address values (#{address.user_id}, #{address.address}, #{address.telephone}, #{address.name})
     </insert>
 
     <insert id="addAddresses">

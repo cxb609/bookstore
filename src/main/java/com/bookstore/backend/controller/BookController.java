@@ -22,10 +22,14 @@ public class BookController {
      * 添加图书
      */
     @RequestMapping(value = "/books", method = PUT)
-    public Result addNewBook(@RequestBody Book book) {
-        return bookService.postBook(book.getBook_id(), book.getTitle(), book.getAuthor(), book.getPublisher(), book.getLanguage(),
-                book.getIsbn(), book.getSize(), book.getWeight(), book.getBrand(), book.getCategory(), book.getPrice(),
-                book.getPicture(), book.getStock(), book.getSale(), book.getDescription());
+    public Result addNewBook(@RequestParam("book_id") String book_id, @RequestParam("title") String title, @RequestParam("author") String author,
+                             @RequestParam("publisher") String publisher, @RequestParam("language") String language, @RequestParam("isbn") String isbn,
+                             @RequestParam("size") String size, @RequestParam("weight") String weight, @RequestParam("brand") String brand,
+                             @RequestParam("category") String category, @RequestParam(value = "price", required = false, defaultValue = "0") double price,
+                             @RequestParam("picture") String picture, @RequestParam(value = "stock", required = false, defaultValue = "0") int stock,
+                             @RequestParam(value = "sale", required = false,defaultValue = "0") int sale,
+                             @RequestParam(value = "description", required = false, defaultValue = "") String description) {
+        return bookService.postBook(book_id, title, author, publisher, language, isbn, size, weight, brand, category, price, picture, stock, sale, description);
     }
 
     /**
@@ -62,10 +66,14 @@ public class BookController {
      * 修改图书信息
      */
     @RequestMapping(value = "/books/{book_id}", method = PUT)
-    public Result changeBookInfo(@PathVariable("book_id") String book_id, @RequestBody Book book) {
-        return bookService.updateBook(book.getBook_id(), book.getTitle(), book.getAuthor(), book.getPublisher(), book.getLanguage(),
-                book.getIsbn(), book.getSize(), book.getWeight(), book.getBrand(), book.getCategory(), book.getPrice(),
-                book.getPicture(), book.getStock(), book.getSale(), book.getDescription());
+    public Result changeBookInfo(@PathVariable("book_id") String book_id, @RequestParam("title") String title, @RequestParam("author") String author,
+                                 @RequestParam("publisher") String publisher, @RequestParam("language") String language, @RequestParam("isbn") String isbn,
+                                 @RequestParam("size") String size, @RequestParam("weight") String weight, @RequestParam("brand") String brand,
+                                 @RequestParam("category") String category, @RequestParam(value = "price", required = false, defaultValue = "0") double price,
+                                 @RequestParam("picture") String picture, @RequestParam(value = "stock", required = false, defaultValue = "0") int stock,
+                                 @RequestParam(value = "sale", required = false,defaultValue = "0") int sale,
+                                 @RequestParam(value = "description", required = false, defaultValue = "") String description) {
+        return bookService.updateBook(book_id, title, author, publisher, language, isbn, size, weight, brand, category, price, picture, stock, sale, description);
     }
 
     /**待测
@@ -73,7 +81,7 @@ public class BookController {
      */
     @RequestMapping(value = "/books/{book_id}/comments", method = POST, produces = "application/json;charset=UTF-8")
     public Result setBookComments(@PathVariable("book_id") String book_id,
-                                  @RequestBody String comment) {
+                                  @RequestParam("comment") String comment) {
         //获取当前session，user_id存在即为登录状态
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
         String user_id = (String) request.getSession().getAttribute("user_id");
@@ -82,14 +90,4 @@ public class BookController {
         return bookService.postComments(user_id, book_id, comment);
     }
 
-    /**
-     * 获取图书评论
-
-    @RequestMapping(value = "/books/{book_id}/comments", method = GET, produces = "application/json;charset=UTF-8")
-    public Result getBookComments(@PathVariable("book_id") String book_id,
-                                  @RequestParam(value = "page", required = false, defaultValue = "1") int page,
-                                  @RequestParam(value = "pageSize", required = false, defaultValue = "15") int pageSize,
-                                  @RequestBody Comment comment) {
-        return bookService.postComments(comment.getUser_id(), book_id, comment.getComment());
-    }*/
 }

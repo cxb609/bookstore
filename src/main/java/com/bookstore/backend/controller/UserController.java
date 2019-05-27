@@ -41,13 +41,13 @@ public class UserController {
      *
      */
     @RequestMapping(value="/users", method=PUT, produces = "application/json;charset=UTF-8")
-    public Result changePwd(@RequestBody Map<String, Object> map){
+    public Result changePwd(@RequestParam("oldPassword") String oldPassword, @RequestParam("newPassword") String newPassword){
         //获取当前session，user_id存在即为登录状态
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
         String user_id = (String) request.getSession().getAttribute("user_id");
         if (user_id == null)
             throw new ServiceException(ErrorCode.PARAM_ERR_COMMON, "未登录");
-        return userService.modifyPassword(user_id, (String)map.get("oldPassword"),(String)map.get("newPassword"));
+        return userService.modifyPassword(user_id, oldPassword, newPassword);
     }
 
     /**
@@ -56,8 +56,8 @@ public class UserController {
      *
      */
     @RequestMapping(value="/users", method=DELETE, produces = "application/json;charset=UTF-8")
-    public Result deleteUser(@RequestBody User user){
-        return userService.deleteUser(user.getUser_id());
+    public Result deleteUser(@RequestParam("user_id") String user_id){
+        return userService.deleteUser(user_id);
     }
 
     /**
@@ -83,7 +83,7 @@ public class UserController {
      * @return
      */
     @RequestMapping(value="/orders", method=POST, produces = "application/json;charset=UTF-8")
-    public  Result produceOrders(@RequestBody List<OrderList> orderLists) {
+    public  Result produceOrders(@RequestParam("orderLists") List<Map<String,Object>> orderLists) {
         //获取当前session，user_id存在即为登录状态
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
         String user_id = (String) request.getSession().getAttribute("user_id");
@@ -108,17 +108,17 @@ public class UserController {
 
     /**
      * 删除地址
-     * @param addr
+     * @param address
      * @return
      */
     @RequestMapping(value="/address", method=DELETE, produces = "application/json;charset=UTF-8")
-    public Result deleteAddress(@RequestBody String addr){
+    public Result deleteAddress(@RequestParam("address") String address){
         //获取当前session，user_id存在即为登录状态
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
         String user_id = (String) request.getSession().getAttribute("user_id");
         if (user_id == null)
             throw new ServiceException(ErrorCode.PARAM_ERR_COMMON, "未登录");
-        return userService.deleteAddress(user_id,addr);
+        return userService.deleteAddress(user_id,address);
     }
 
     /**
@@ -127,13 +127,12 @@ public class UserController {
      * @return
      */
     @RequestMapping(value="/address", method=PUT, produces = "application/json;charset=UTF-8")
-    public Result addAddress(@RequestBody Address address){
+    public Result addAddress(@RequestParam("address") String address, @RequestParam("telephone") long telephone, @RequestParam("name") String name){
         //获取当前session，user_id存在即为登录状态
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
         String user_id = (String) request.getSession().getAttribute("user_id");
         if (user_id == null)
             throw new ServiceException(ErrorCode.PARAM_ERR_COMMON, "未登录");
-        address.setUser_id(user_id);
-        return userService.addAddress(address);
+        return userService.addAddress(user_id, address, telephone, name);
     }
 }
