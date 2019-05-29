@@ -2,6 +2,7 @@ package com.bookstore.backend.controller;
 
 import com.bookstore.backend.entity.*;
 import com.bookstore.backend.service.UserService;
+import net.sf.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -78,12 +79,14 @@ public class UserController {
 
     /**
      * 生成用户订单
-     *
+     * List<Map<String,Object>> orderLists
      * @param
      * @return
      */
-    @RequestMapping(value="/orders", method=POST, produces = "application/json;charset=UTF-8")
-    public  Result produceOrders(@RequestParam("orderLists") List<Map<String,Object>> orderLists) {
+    @RequestMapping(value="/orders", method=POST, produces = "application/json")
+    public  Result produceOrders(@RequestParam("orderLists") String order) {
+        JSONArray jsonArr = JSONArray.fromObject(order);
+        List<Map<String,Object>> orderLists = JSONArray.toList(jsonArr, Map.class);
         //获取当前session，user_id存在即为登录状态
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
         String user_id = (String) request.getSession().getAttribute("user_id");
