@@ -2,6 +2,7 @@ package com.bookstore.backend.controller;
 
 import com.bookstore.backend.entity.*;
 import com.bookstore.backend.service.BookService;
+import com.bookstore.backend.service.ElasticsearchService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -9,6 +10,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.constraints.Min;
 
 import static org.springframework.web.bind.annotation.RequestMethod.*;
 
@@ -17,6 +19,9 @@ import static org.springframework.web.bind.annotation.RequestMethod.*;
 public class BookController {
     @Autowired
     private BookService bookService;
+
+    @Autowired
+    private ElasticsearchService elasticsearchService;
 
     /**
      * 添加图书
@@ -90,4 +95,25 @@ public class BookController {
         return bookService.postComments(user_id, book_id, comment);
     }
 
+    /**
+     * 添加数据
+     * @return
+     */
+    @GetMapping(value = "/loadElasticsearch")
+    public Result loadDataToElasticsearch(){
+        if(elasticsearchService.createIndex() == false){
+            return Result.OK("创建索引失败").build();
+        }
+        return elasticsearchService.loadData();
+    }
+
+    /**
+     * 搜索
+     * @return
+     */
+    @GetMapping(value = "/search")
+    public Result search(@RequestParam(value = "keyword", defaultValue = "") String keyword,
+                         @Min(value = 1) @RequestParam(value = "size", defaultValue = "10") int size){
+        return elasticsearchService.search(keyword, size);
+    }
 }

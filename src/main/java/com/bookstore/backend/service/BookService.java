@@ -3,8 +3,11 @@ package com.bookstore.backend.service;
 import com.bookstore.backend.dao.BookDao;
 import com.bookstore.backend.dao.OrderListDao;
 import com.bookstore.backend.entity.*;
+import com.bookstore.backend.entity.event.DeleteEvent;
+import com.bookstore.backend.entity.event.InsertEvent;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import org.greenrobot.eventbus.EventBus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -180,11 +183,12 @@ public class BookService {
         if(affectedRow == 0){
             throw new ServiceException(ErrorCode.SERVER_EXCEPTION,"删除图书失败");
         }
+        EventBus.getDefault().post(new DeleteEvent(book_id));
         return Result.OK("删除图书成功").build();
     }
 
     /**
-     * 添加图书。目前用不到
+     * 添加图书.
      * @param book_id
      * @param title
      * @param publisher
@@ -225,6 +229,7 @@ public class BookService {
         if(affectedRow == 0){
             throw new ServiceException(ErrorCode.SERVER_EXCEPTION,"添加图书失败");
         }
+        EventBus.getDefault().post(new InsertEvent(book));
         return Result.OK("添加图书成功").build();
     }
 

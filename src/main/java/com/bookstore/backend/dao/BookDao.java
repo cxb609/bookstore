@@ -84,4 +84,10 @@ public interface BookDao {
      * @return
      */
     List<String> getCategory();
+
+    /**
+     * 获取所有图书
+     * @return
+     */
+    List<Book> getAllBook();
 }
